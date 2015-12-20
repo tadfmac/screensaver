@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Controller</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8;"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+</head>
+<body>
+<button id="send">PUSH!</button>
+<button id="clear">clear</button>
+<button id="snow">snow</button>
+<div id="status">Connecting...</div>
+<script src='jquery-2.0.3.min.js'></script>
+<script src='poorws.js'></script>
+<script>
+var host = "ws://xxx.net:xxxx";
+var ws = new poorws(host);
+var status = 0;
+ws.onStatusChange = function(sts){
+  status = sts;
+  if(sts == 0){
+    $("#status").text("Connecting...");
+  }else if(sts == 1){
+    $("#status").text("Connected!");
+  }else if(sts == 2){
+    $("#status").text("Disconnecting...");
+  }else if(sts == 3){
+    $("#status").text("Re-Connecting...");
+  }
+};
+$(function(){
+  $("#send").bind({
+    "touchstart mousedown":function(e){
+      ws.send("test");
+    }
+  });
+  $("#clear").bind({
+    "touchstart mousedown":function(e){
+      ws.send("clear");
+    }
+  });
+  $("#snow").bind({
+    "touchstart mousedown":function(e){
+      ws.send("snow");
+    }
+  });
+});
+</script>
+</body>
+</html>
